@@ -46,20 +46,21 @@ public class SampleData {
         List<HwAudioPlayItem> playItemList = new ArrayList<>();
         HwAudioPlayItem audioPlayItem1 = new HwAudioPlayItem();
         audioPlayItem1.setAudioId("1000");
-        audioPlayItem1.setSinger("Taoge");
+        audioPlayItem1.setSinger("Big Buck Bunny");
         audioPlayItem1.setOnlinePath("https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4");
         //audioPlayItem1.setOnlinePath("https://lfmusicservice.hwcloudtest.cn:18084/HMS/audio/Taoge-chengshilvren.mp3");
         audioPlayItem1.setOnline(1);
-        audioPlayItem1.setAudioTitle("chengshilvren");
+        audioPlayItem1.setAudioTitle("Big Buck Bunny");
         playItemList.add(audioPlayItem1);
 
         HwAudioPlayItem audioPlayItem2 = new HwAudioPlayItem();
         audioPlayItem2.setAudioId("1001");
-        audioPlayItem2.setSinger("Taoge");
+        audioPlayItem2.setSinger("Unknown Chinese Song");
         audioPlayItem2.setOnlinePath("http://3.236.27.2/alan/songs/one_song.mp3");
         //audioPlayItem2.setOnlinePath("https://lfmusicservice.hwcloudtest.cn:18084/HMS/audio/Taoge-dayu.mp3");
         audioPlayItem2.setOnline(1);
-        audioPlayItem2.setAudioTitle("dayu");
+        //audioPlayItem2.setAudioTitle("dayu");
+        audioPlayItem2.setAudioTitle("Unknown Chinese Song");
         playItemList.add(audioPlayItem2);
 
         /*

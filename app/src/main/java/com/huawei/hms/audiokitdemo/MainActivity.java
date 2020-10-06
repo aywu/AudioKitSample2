@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-
+// v2:
 package com.huawei.hms.audiokitdemo;
 
 import android.Manifest;
@@ -173,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         checkReadPermission();
         PlayModeUtils.getInstance().updatePlayMode(this, mPlayModeView);
+
+        if (PlayHelper.getInstance().isPlayManagerAvailable()) {
+            PlayHelper.getInstance().resume(MainActivity.this);
+        }
     }
 
     @Override
@@ -211,9 +215,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (PlayHelper.getInstance().isPlayManagerAvailable()) {
+            PlayHelper.getInstance().pause();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        PlayHelper.getInstance().removeListener(mPlayListener);
+
+        if (PlayHelper.getInstance().isPlayManagerAvailable()) {
+            PlayHelper.getInstance().removeListener(mPlayListener);
+            PlayHelper.getInstance().stop();
+        }
     }
 
     @Override
