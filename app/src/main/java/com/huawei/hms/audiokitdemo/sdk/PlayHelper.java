@@ -49,8 +49,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @since 2020-06-01
  */
 public class PlayHelper {
-
     private static final String TAG = "PlayHelper";
+
+    private enum PLAYLISTSOURCE {
+      NONE,
+      LOCALLIST,
+      ONLINELIST
+    };
 
     private static final int SIZE_M = 1024 * 1024;
 
@@ -68,6 +73,8 @@ public class PlayHelper {
 
     private SampleData sampleData = new SampleData();
 
+    private PLAYLISTSOURCE playListSource = PLAYLISTSOURCE.NONE;
+
     private PlayHelper() {
     }
 
@@ -78,6 +85,10 @@ public class PlayHelper {
      */
     public static PlayHelper getInstance() {
         return INSTANCE;
+    }
+
+    public PLAYLISTSOURCE getPlayListSource() {
+      return playListSource;
     }
 
     /**
@@ -174,9 +185,24 @@ public class PlayHelper {
      * @param context context
      */
     public void buildLocal(Context context) {
+        playListSource = PLAYLISTSOURCE.LOCALLIST;
         if (context != null && mHwAudioPlayerManager != null) {
             mHwAudioPlayerManager.playList(sampleData.getLocalPlayList(context), 0, 0);
         }
+    }
+
+    /*
+    public void resume(Context context) {
+      if (playListSource == PLAYLISTSOURCE.LOCALLIST) {
+          buildLocal(context);
+      } else if (playListSource == PLAYLISTSOURCE.ONLINELIST) {
+          buildOnlineList();
+      }
+    }
+    */
+
+    public boolean isPlayManagerAvailable() {
+        return (mHwAudioPlayerManager != null);
     }
 
     /**
@@ -198,6 +224,7 @@ public class PlayHelper {
      */
     public void buildOnlineList() {
         Log.i(TAG, "buildOnlineList");
+        playListSource = PLAYLISTSOURCE.ONLINELIST;
         List<HwAudioPlayItem> playItemList = sampleData.getOnlinePlaylist();
         Log.i(TAG, "buildOnlineList(): playItemList has " + playItemList.size() + " items.");
         if (mHwAudioPlayerManager != null) {
@@ -336,6 +363,14 @@ public class PlayHelper {
             return;
         }
         mHwAudioPlayerManager.pause();
+    }
+
+    public void resume(Context context) {
+      if (playListSource == PLAYLISTSOURCE.LOCALLIST) {
+          buildLocal(context);
+      } else if (playListSource == PLAYLISTSOURCE.ONLINELIST) {
+          buildOnlineList();
+      }
     }
 
     /**
